@@ -3,6 +3,8 @@ export enum ServicesProviders {
   IListDebts = 'IListDebts',
   IPaidDebt = 'IPaidDebt',
   ISignIn = 'ISignIn',
+  IJwtService = 'IJwtService',
+  IHashService = 'IHashService',
 }
 
 export enum RepositoriesProviders {

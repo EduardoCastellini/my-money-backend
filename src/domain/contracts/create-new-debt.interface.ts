@@ -4,6 +4,7 @@ export type CreateNewDebtInput = {
   description: string;
   amount: number;
   dueDate: Date;
+  userId: string;
   tags?: string[];
 };
 

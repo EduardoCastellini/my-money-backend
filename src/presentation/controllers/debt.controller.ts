@@ -5,11 +5,13 @@ import {
   Inject,
   Param,
   Post,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { ICreateNewDebt } from 'src/domain/contracts/create-new-debt.interface';
 import { IListDebts } from 'src/domain/contracts/list-debts.interface';
 import { IPaidDebt } from 'src/domain/contracts/paid-debt.interface';
+import { AuthGuard } from 'src/infra/guards/auth.guard';
 import { ZodValidationPipe } from 'src/infra/pipes/zod-validation.pipe';
 import { createDebtSchema } from 'src/infra/zod-schema-validation/create-debt.chema';
 import { ServicesProviders } from 'src/main/providers.enum';
@@ -34,7 +36,9 @@ export class DebtController {
     @Body()
     createDebtDto: CreateDebtDto,
   ): Promise<string> {
-    await this.createNewDebt.execute(createDebtDto);
+    const userId = 'user-id'; // get from token
+
+    await this.createNewDebt.execute({ ...createDebtDto, userId });
 
     return 'Debt created';
   }

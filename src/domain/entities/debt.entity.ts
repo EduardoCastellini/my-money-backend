@@ -7,6 +7,7 @@ export type DebtProps = {
   amount: number;
   dueDate: Date;
   status: DebtStatus;
+  userId: string;
   paymentDate?: Date;
   tags?: string[];
   created_at?: Date;
@@ -19,6 +20,7 @@ export class DebtEntity {
   private readonly _amount: number;
   private readonly _dueDate: Date;
   private _status: DebtStatus;
+  private readonly _userId: string;
   private _paymentDate?: Date;
   private _tags?: string[];
   private readonly _created_at?: Date;
@@ -60,6 +62,10 @@ export class DebtEntity {
     return this._status;
   }
 
+  get userId(): string {
+    return this._id;
+  }
+
   get paymentDate(): Date | null {
     return this._paymentDate;
   }
@@ -84,8 +90,10 @@ export class DebtEntity {
   }
 
   public payDebt(): void {
-    this._status = DebtStatus.PAID;
-    this._paymentDate = new Date();
+    if (this._status === DebtStatus.PENDING) {
+      this._status = DebtStatus.PAID;
+      this._paymentDate = new Date();
+    }
   }
 
   public toJSON(): DebtProps {
@@ -95,6 +103,7 @@ export class DebtEntity {
       amount: this._amount,
       dueDate: this._dueDate,
       status: this._status,
+      userId: this._userId,
       paymentDate: this._paymentDate,
       tags: this._tags,
       created_at: this._created_at,

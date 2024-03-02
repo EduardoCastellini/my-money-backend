@@ -14,6 +14,7 @@ import {
   SignInSchema,
   SignInDto,
 } from 'src/infra/zod-schema-validation/sign-in.chema';
+import { Public } from 'src/infra/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +25,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
+  @Public()
   @UsePipes(new ZodValidationPipe(SignInSchema))
   login(@Body() signInDto: SignInDto) {
     return this.signIn.execute(signInDto.email, signInDto.password);
