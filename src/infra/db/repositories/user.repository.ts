@@ -1,24 +1,44 @@
 import { IUserRepository } from 'src/app/contracts/user-repository.interface';
 import { UserEntity } from 'src/domain/entities/user.entity';
+import { PrismaService } from '../prisma.service';
 
 export class UserRepository implements IUserRepository {
-  private users: UserEntity[] = [];
+  constructor(private prisma: PrismaService) {}
 
-  async save(user: UserEntity): Promise<UserEntity> {
-    this.users.push(user);
+  async save(userEntity: UserEntity): Promise<UserEntity> {
+    const user = await this.prisma.users.create({
+      data: {
+        id: userEntity.id,
+        name: userEntity.name,
+        email: userEntity.email,
+        password: userEntity.password,
+      },
+    });
 
-    return user;
+    return new UserEntity({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+    });
   }
 
   async findOneByEmail(email: string): Promise<UserEntity> {
-    return new Promise((resolve, reject) => {
-      const user = this.users.find((user) => user.email === email);
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email,
+      },
+    });
 
-      if (!user) {
-        reject('User not found');
-      }
+    if (!user) {
+      throw new Error('User not found');
+    }
 
-      resolve(user);
+    return new UserEntity({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
     });
   }
 }

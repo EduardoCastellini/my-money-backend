@@ -5,14 +5,19 @@ import { DebtRepository } from 'src/infra/db/repositories/debt.repository';
 import { DebtController } from 'src/presentation/controllers/debt.controller';
 import { ServicesProviders, RepositoriesProviders } from './providers.enum';
 import { PaidDebtUseCase } from 'src/app/use-cases/paid-debt.use-case';
+import { PrismaService } from 'src/infra/db/prisma.service';
 
 @Module({
   imports: [],
   controllers: [DebtController],
   providers: [
+    PrismaService,
     {
       provide: RepositoriesProviders.IDebtRepository,
-      useClass: DebtRepository,
+      useFactory: (prismaService: PrismaService) => {
+        return new DebtRepository(prismaService);
+      },
+      inject: [PrismaService],
     },
     {
       provide: ServicesProviders.ICreateNewDebt,

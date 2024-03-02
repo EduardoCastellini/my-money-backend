@@ -9,6 +9,7 @@ import { JwtAdapter } from 'src/infra/adapters/jwt.adapter';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from 'src/infra/guards/auth.guard';
 import { HashAdapter } from 'src/infra/adapters/hash.adapter';
+import { PrismaService } from 'src/infra/db/prisma.service';
 
 @Module({
   imports: [
@@ -16,18 +17,22 @@ import { HashAdapter } from 'src/infra/adapters/hash.adapter';
     JwtModule.register({
       global: true,
       secret: 'secretKey', // TODO: use process.env.JWT_SECRET
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   controllers: [AuthController],
   providers: [
+    PrismaService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
     {
       provide: RepositoriesProviders.IUserRepository,
-      useClass: UserRepository,
+      useFactory: (prismaService: PrismaService) => {
+        return new UserRepository(prismaService);
+      },
+      inject: [PrismaService],
     },
     {
       provide: ServicesProviders.IJwtService,

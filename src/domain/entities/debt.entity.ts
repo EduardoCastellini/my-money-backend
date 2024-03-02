@@ -32,6 +32,7 @@ export class DebtEntity {
     this._amount = props.amount;
     this._dueDate = props.dueDate;
     this._status = props.status;
+    this._userId = props.userId;
     this._paymentDate = props.paymentDate;
     this._tags = props.tags || [];
     this._created_at = props.created_at;
@@ -63,7 +64,7 @@ export class DebtEntity {
   }
 
   get userId(): string {
-    return this._id;
+    return this._userId;
   }
 
   get paymentDate(): Date | null {
@@ -103,8 +104,8 @@ export class DebtEntity {
       amount: this._amount,
       dueDate: this._dueDate,
       status: this._status,
-      userId: this._userId,
       paymentDate: this._paymentDate,
+      userId: this._userId,
       tags: this._tags,
       created_at: this._created_at,
       updated_at: this._updated_at,

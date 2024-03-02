@@ -4,14 +4,19 @@ import { RepositoriesProviders, ServicesProviders } from './providers.enum';
 import { UserRepository } from 'src/infra/db/repositories/user.repository';
 import { UserRegisterUseCase } from 'src/app/use-cases/user-register.use-case';
 import { HashAdapter } from 'src/infra/adapters/hash.adapter';
+import { PrismaService } from 'src/infra/db/prisma.service';
 
 @Module({
   imports: [],
   controllers: [UserController],
   providers: [
+    PrismaService,
     {
       provide: RepositoriesProviders.IUserRepository,
-      useClass: UserRepository,
+      useFactory: (prismaService: PrismaService) => {
+        return new UserRepository(prismaService);
+      },
+      inject: [PrismaService],
     },
     {
       provide: ServicesProviders.IHashService,

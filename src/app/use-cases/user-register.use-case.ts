@@ -15,8 +15,7 @@ export class UserRegisterUseCase implements IUserRegisterService {
   ) {}
 
   async execute(data: UserRegisterInput): Promise<UserRegisterOutput> {
-    // const userAlreadyExists = await this.userRepo.findOneByEmail(data.email);
-    const userAlreadyExists = false; // TODO: remove this line
+    const userAlreadyExists = await this.userRepo.findOneByEmail(data.email);
 
     if (userAlreadyExists) {
       throw new ConflictException('User already exists');

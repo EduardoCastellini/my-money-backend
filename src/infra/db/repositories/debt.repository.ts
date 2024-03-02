@@ -1,39 +1,95 @@
 import { IDebtRepository } from 'src/app/contracts/debt-repository.interface';
 import { DebtEntity } from 'src/domain/entities/debt.entity';
+import { PrismaService } from '../prisma.service';
+import { DebtStatus } from 'src/domain/enums/debt-status.enum';
 
 export class DebtRepository implements IDebtRepository {
-  private debts: DebtEntity[] = [];
+  constructor(private prisma: PrismaService) {}
 
   async save(debt: DebtEntity): Promise<DebtEntity> {
-    this.debts.push(debt);
+    const debtCreated = await this.prisma.debts.create({
+      data: {
+        id: debt.id,
+        description: debt.description,
+        amount: debt.amount,
+        status: debt.status,
+        dueDate: debt.dueDate,
+        tags: debt.tags.toString(),
+        userId: debt.userId,
+      },
+    });
 
-    return debt;
+    return new DebtEntity({
+      id: debtCreated.id,
+      description: debtCreated.description,
+      amount: debtCreated.amount,
+      status:
+        debtCreated.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
+      dueDate: debtCreated.dueDate,
+      userId: debtCreated.userId,
+    });
   }
 
   async findOne(debtId: string): Promise<DebtEntity> {
-    return new Promise((resolve, reject) => {
-      const debt = this.debts.find((debt) => debt.id === debtId);
-      if (!debt) {
-        reject('Debt not found');
-      }
+    const debt = await this.prisma.debts.findUnique({
+      where: {
+        id: debtId,
+      },
+    });
 
-      resolve(debt);
+    if (!debt) {
+      throw new Error('Debt not found');
+    }
+
+    return new DebtEntity({
+      id: debt.id,
+      description: debt.description,
+      amount: debt.amount,
+      status: debt.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
+      dueDate: debt.dueDate,
+      userId: debt.userId,
     });
   }
 
   async findByMonth(month: number): Promise<DebtEntity[]> {
-    return new Promise((resolve) => {
-      resolve(
-        this.debts.filter((debt) => debt.dueDate.getMonth() === month - 1),
+    const debts = await this.prisma.debts.findMany({});
+
+    return debts
+      .filter((debt) => debt.dueDate.getMonth() === month - 1)
+      .map(
+        (debt) =>
+          new DebtEntity({
+            id: debt.id,
+            description: debt.description,
+            amount: debt.amount,
+            status:
+              debt.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
+            paymentDate: debt.paymentDate,
+            dueDate: debt.dueDate,
+            userId: debt.userId,
+          }),
       );
-    });
   }
 
   async update(debt: DebtEntity): Promise<DebtEntity> {
-    const index = this.debts.findIndex((d) => d.id === debt.id);
+    const debtUpdated = await this.prisma.debts.update({
+      where: {
+        id: debt.id,
+      },
+      data: {
+        status: debt.status.valueOf(),
+        paymentDate: debt.paymentDate,
+      },
+    });
 
-    this.debts[index] = debt;
-
-    return debt;
+    return new DebtEntity({
+      id: debtUpdated.id,
+      description: debtUpdated.description,
+      amount: debtUpdated.amount,
+      status:
+        debtUpdated.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
+      dueDate: debtUpdated.dueDate,
+      userId: debtUpdated.userId,
+    });
   }
 }
