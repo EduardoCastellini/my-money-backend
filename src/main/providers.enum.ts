@@ -5,6 +5,7 @@ export enum ServicesProviders {
   ISignIn = 'ISignIn',
   IJwtService = 'IJwtService',
   IHashService = 'IHashService',
+  IUserRegisterService = 'IUserRegisterService',
 }
 
 export enum RepositoriesProviders {

@@ -10,9 +10,10 @@ export class UserRepository implements IUserRepository {
     return user;
   }
 
-  async findOne(userId: string): Promise<UserEntity> {
+  async findOneByEmail(email: string): Promise<UserEntity> {
     return new Promise((resolve, reject) => {
-      const user = this.users.find((user) => user.id === userId);
+      const user = this.users.find((user) => user.email === email);
+
       if (!user) {
         reject('User not found');
       }
