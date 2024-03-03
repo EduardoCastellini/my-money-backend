@@ -48,6 +48,7 @@ export class DebtRepository implements IDebtRepository {
       status: debt.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
       dueDate: debt.dueDate,
       userId: debt.userId,
+      tags: debt.tags.split(','),
     });
   }
 
@@ -67,6 +68,7 @@ export class DebtRepository implements IDebtRepository {
             paymentDate: debt.paymentDate,
             dueDate: debt.dueDate,
             userId: debt.userId,
+            tags: debt.tags.split(','),
           }),
       );
   }

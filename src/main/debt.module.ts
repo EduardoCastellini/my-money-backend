@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CreateNewDebtUseCase } from 'src/app/use-cases/create-new-debt.use-case';
-import { ListDebtsUseCase } from 'src/app/use-cases/list-debts.use-case';
+import { ListMonthlyDebtsUseCase } from 'src/app/use-cases/list-monthly-debts.use-case';
 import { DebtRepository } from 'src/infra/db/repositories/debt.repository';
 import { DebtController } from 'src/presentation/controllers/debt.controller';
 import { ServicesProviders, RepositoriesProviders } from './providers.enum';
@@ -27,9 +27,9 @@ import { PrismaService } from 'src/infra/db/prisma.service';
       inject: [RepositoriesProviders.IDebtRepository],
     },
     {
-      provide: ServicesProviders.IListDebts,
+      provide: ServicesProviders.IListMonthlyDebts,
       useFactory: (debtRepository: DebtRepository) => {
-        return new ListDebtsUseCase(debtRepository);
+        return new ListMonthlyDebtsUseCase(debtRepository);
       },
       inject: [RepositoriesProviders.IDebtRepository],
     },

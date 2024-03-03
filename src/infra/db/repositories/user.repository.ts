@@ -31,7 +31,7 @@ export class UserRepository implements IUserRepository {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      return null;
     }
 
     return new UserEntity({

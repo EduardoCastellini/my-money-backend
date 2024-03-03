@@ -1,6 +1,6 @@
 export enum ServicesProviders {
   ICreateNewDebt = 'ICreateNewDebt',
-  IListDebts = 'IListDebts',
+  IListMonthlyDebts = 'IListMonthlyDebts',
   IPaidDebt = 'IPaidDebt',
   ISignIn = 'ISignIn',
   IJwtService = 'IJwtService',

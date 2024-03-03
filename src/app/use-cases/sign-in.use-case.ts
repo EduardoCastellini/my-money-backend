@@ -14,6 +14,10 @@ export class SignInUseCase implements ISignIn {
   async execute(email: string, password: string): Promise<string> {
     const user = await this.userRepo.findOneByEmail(email);
 
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     if (!(await this.hashService.compare(password, user.password))) {
       throw new NotFoundException('Invalid password');
     }

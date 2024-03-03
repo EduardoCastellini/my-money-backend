@@ -9,7 +9,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { ICreateNewDebt } from 'src/domain/contracts/create-new-debt.interface';
-import { IListDebts } from 'src/domain/contracts/list-debts.interface';
+import { IListMonthlyDebts } from 'src/domain/contracts/list-monthly-debts.interface';
 import { IPaidDebt } from 'src/domain/contracts/paid-debt.interface';
 import { ZodValidationPipe } from 'src/infra/pipes/zod-validation.pipe';
 import { createDebtSchema } from 'src/infra/zod-schema-validation/create-debt.chema';
@@ -22,8 +22,8 @@ export class DebtController {
     @Inject(ServicesProviders.ICreateNewDebt)
     private readonly createNewDebt: ICreateNewDebt,
 
-    @Inject(ServicesProviders.IListDebts)
-    private readonly listDebts: IListDebts,
+    @Inject(ServicesProviders.IListMonthlyDebts)
+    private readonly listMonthlyDebts: IListMonthlyDebts,
 
     @Inject(ServicesProviders.IPaidDebt)
     private readonly paidDebt: IPaidDebt,
@@ -44,9 +44,9 @@ export class DebtController {
     return 'Debt created';
   }
 
-  @Get('/:month')
+  @Get('list-debts/:month')
   async debts(@Param('month') month: number): Promise<unknown> {
-    return await this.listDebts.execute(month);
+    return await this.listMonthlyDebts.execute(month);
   }
 
   @Post('/pay/:debtId')

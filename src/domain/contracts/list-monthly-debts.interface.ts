@@ -1,5 +1,5 @@
 import { DebtProps } from '../entities/debt.entity';
 
-export interface IListDebts {
+export interface IListMonthlyDebts {
   execute(month: number): Promise<DebtProps[]>;
 }

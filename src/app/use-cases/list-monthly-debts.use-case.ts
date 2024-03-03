@@ -1,8 +1,8 @@
-import { IListDebts } from 'src/domain/contracts/list-debts.interface';
+import { IListMonthlyDebts } from 'src/domain/contracts/list-monthly-debts.interface';
 import { IDebtRepository } from '../contracts/debt-repository.interface';
 import { DebtProps } from 'src/domain/entities/debt.entity';
 
-export class ListDebtsUseCase implements IListDebts {
+export class ListMonthlyDebtsUseCase implements IListMonthlyDebts {
   constructor(private readonly debtRepository: IDebtRepository) {}
 
   async execute(month: number): Promise<DebtProps[]> {
