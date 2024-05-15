@@ -6,7 +6,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./docker/node/Dockerfile
+      dockerfile: ./docker/node/Dockerfile.dev
     environment:
       - CONTAINER_ROLE=api
     ports:
@@ -22,7 +22,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./docker/node/Dockerfile
+      dockerfile: ./docker/node/Dockerfile.dev
     environment:
       - CONTAINER_ROLE=workers
     volumes:
@@ -33,8 +33,8 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-    cpus: 0.1
-    mem_limit: 256M
+    # cpus: 0.1
+    # mem_limit: 256M
   
   postgresql:
     image: postgres
@@ -48,19 +48,19 @@ services:
     ports:
       - '5432:5432'
 
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: redis
-  #   ports:
-  #     - mode: host
-  #       published: 6379
-  #       target: 6379
-  #   healthcheck:
-  #     test: ["CMD", "redis-cli", "ping"]
-  #     retries: 3
-  #     timeout: 5s
-  #   volumes:
-  #     - redisdata:/data
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - mode: host
+        published: 6379
+        target: 6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
+    volumes:
+      - redisdata:/data
 
 volumes:
   pgdata:
