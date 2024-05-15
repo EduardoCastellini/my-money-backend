@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: api
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    environment:
+      - CONTAINER_ROLE=api
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - postgresql
+      # - redis
+  
+  workers:
+    container_name: services-workers
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    environment:
+      - CONTAINER_ROLE=workers
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - postgresql
+      # - redis
+    deploy:
+      mode: replicated
+      replicas: 1
+    cpus: 0.1
+    mem_limit: 256M
+  
+  postgresql:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgresql
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: redis
+  #   ports:
+  #     - mode: host
+  #       published: 6379
+  #       target: 6379
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     retries: 3
+  #     timeout: 5s
+  #   volumes:
+  #     - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:
