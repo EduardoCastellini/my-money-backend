@@ -15,7 +15,7 @@ services:
       - ./src:/app/src
     depends_on:
       - postgresql
-      # - redis
+      - redis
   
   workers:
     container_name: services-workers
@@ -29,7 +29,7 @@ services:
       - ./src:/app/src
     depends_on:
       - postgresql
-      # - redis
+      - redis
     deploy:
       mode: replicated
       replicas: 1
