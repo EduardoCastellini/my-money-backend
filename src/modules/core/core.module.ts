@@ -11,6 +11,8 @@ import { UserRegisterUseCase } from './use-cases/user-register.use-case';
 import { SignInUseCase } from './use-cases/sign-in.use-case';
 import { JwtAdapter } from 'src/modules/infra/adapters/jwt.adapter';
 import { InfraModule } from 'src/modules/infra/infra.module';
+import { ProducerProviders } from 'src/providers/producer-provider.enum';
+import { DebtQueueProducer } from '../infra/producers/debt-queue-producer';
 
 @Module({
   imports: [InfraModule],
@@ -32,10 +34,16 @@ import { InfraModule } from 'src/modules/infra/infra.module';
     },
     {
       provide: ServiceProviders.ICreateNewDebt,
-      useFactory: (debtRepository: DebtRepository) => {
-        return new CreateNewDebtUseCase(debtRepository);
+      useFactory: (
+        debtQueueProducer: DebtQueueProducer,
+        debtRepository: DebtRepository,
+      ) => {
+        return new CreateNewDebtUseCase(debtQueueProducer, debtRepository);
       },
-      inject: [RepositoryProviders.IDebtRepository],
+      inject: [
+        ProducerProviders.IDebtQueueProducer,
+        RepositoryProviders.IDebtRepository,
+      ],
     },
     {
       provide: ServiceProviders.IListMonthlyDebts,
