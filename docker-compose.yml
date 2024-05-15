@@ -18,7 +18,6 @@ services:
       - redis
   
   workers:
-    container_name: services-workers
     restart: on-failure
     build:
       context: .
@@ -44,7 +43,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     container_name: postgresql
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
 
