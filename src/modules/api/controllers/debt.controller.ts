@@ -19,13 +19,13 @@ import { ServiceProviders } from 'src/providers/service-providers.enum';
 @Controller('debt')
 export class DebtController {
   constructor(
-    @Inject(ServiceProviders.ICreateNewDebt)
+    @Inject(ServiceProviders.CreateNewDebt)
     private readonly createNewDebt: ICreateNewDebt,
 
-    @Inject(ServiceProviders.IListMonthlyDebts)
+    @Inject(ServiceProviders.ListMonthlyDebts)
     private readonly listMonthlyDebts: IListMonthlyDebts,
 
-    @Inject(ServiceProviders.IPaidDebt)
+    @Inject(ServiceProviders.PaidDebt)
     private readonly paidDebt: IPaidDebt,
   ) {}
 

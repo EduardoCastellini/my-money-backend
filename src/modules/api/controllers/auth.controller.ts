@@ -19,7 +19,7 @@ import { ServiceProviders } from 'src/providers/service-providers.enum';
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject(ServiceProviders.ISignIn)
+    @Inject(ServiceProviders.SignIn)
     private signIn: ISignIn,
   ) {}
 

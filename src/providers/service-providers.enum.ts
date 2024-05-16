@@ -1,9 +1,7 @@
 export enum ServiceProviders {
-  ICreateNewDebt = 'ICreateNewDebt',
-  IListMonthlyDebts = 'IListMonthlyDebts',
-  IPaidDebt = 'IPaidDebt',
-  ISignIn = 'ISignIn',
-  IJwtService = 'IJwtService',
-  IHashService = 'IHashService',
-  IUserRegisterService = 'IUserRegisterService',
+  CreateNewDebt = 'CreateNewDebt',
+  ListMonthlyDebts = 'ListMonthlyDebts',
+  PaidDebt = 'PaidDebt',
+  SignIn = 'SignIn',
+  UserRegisterService = 'UserRegisterService',
 }

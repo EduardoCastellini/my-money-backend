@@ -1,9 +1,10 @@
 import { IUserRepository } from 'src/modules/core/contracts/user-repository.interface';
 import { UserEntity } from 'src/modules/core/domain/entities/user.entity';
 import { PrismaService } from '../prisma.service';
+import { Inject } from '@nestjs/common';
 
 export class UserRepository implements IUserRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private prisma: PrismaService) {}
 
   async save(userEntity: UserEntity): Promise<UserEntity> {
     const user = await this.prisma.users.create({

@@ -2,9 +2,10 @@ import { IDebtRepository } from 'src/modules/core/contracts/debt-repository.inte
 import { DebtEntity } from 'src/modules/core/domain/entities/debt.entity';
 import { PrismaService } from '../prisma.service';
 import { DebtStatus } from 'src/modules/core/domain/enums/debt-status.enum';
+import { Inject } from '@nestjs/common';
 
 export class DebtRepository implements IDebtRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private prisma: PrismaService) {}
 
   async save(debt: DebtEntity): Promise<DebtEntity> {
     const debtCreated = await this.prisma.debts.create({

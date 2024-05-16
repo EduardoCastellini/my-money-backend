@@ -17,7 +17,7 @@ import { ServiceProviders } from 'src/providers/service-providers.enum';
 @Controller('user')
 export class UserController {
   constructor(
-    @Inject(ServiceProviders.IUserRegisterService)
+    @Inject(ServiceProviders.UserRegisterService)
     private registerService: IUserRegisterService,
   ) {}
 
