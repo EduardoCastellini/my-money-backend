@@ -10,7 +10,7 @@ import {
 import { IUserRegisterService } from 'src/modules/core/domain/contracts/user-register.interface';
 import { Public } from 'src/modules/infra/decorators/public.decorator';
 import { ZodValidationPipe } from 'src/modules/infra/pipes/zod-validation.pipe';
-import { RegisterDto } from '../dtos/register.dto';
+import { RegisterUserDto } from '../dtos/register-user.dto';
 import { userRegisterSchema } from 'src/modules/infra/zod-schema-validation/user-register.chema';
 import { ServiceProviders } from 'src/providers/service-providers.enum';
 
@@ -25,7 +25,7 @@ export class UserController {
   @Post('register')
   @Public()
   @UsePipes(new ZodValidationPipe(userRegisterSchema))
-  async login(@Body() registerDto: RegisterDto) {
+  async login(@Body() registerDto: RegisterUserDto) {
     const username = await this.registerService.execute(registerDto);
 
     return { name: username };
