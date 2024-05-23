@@ -14,7 +14,7 @@ import { IPaidDebt } from 'src/modules/core/domain/contracts/paid-debt.interface
 import { ZodValidationPipe } from 'src/modules/infra/pipes/zod-validation.pipe';
 import { createDebtSchema } from 'src/modules/infra/zod-schema-validation/create-debt.chema';
 import { CreateDebtDto } from 'src/modules/api/dtos/create-debt.dto';
-import { ServiceProviders } from 'src/providers/service-providers.enum';
+import { ServiceProviders } from 'src/modules/core/service-providers.enum';
 
 @Controller('debt')
 export class DebtController {

@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile.dev
+    entrypoint: /bin/sh -c "yarn prisma migrate deploy && yarn start:dev"
     environment:
       - CONTAINER_ROLE=api
     ports:
@@ -29,6 +30,7 @@ services:
     depends_on:
       - postgresql
       - redis
+      - api
     deploy:
       mode: replicated
       replicas: 1
@@ -39,8 +41,8 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     container_name: postgresql
     volumes:
       - pgdata:/var/lib/postgresql/data

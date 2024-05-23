@@ -3,5 +3,5 @@ export enum ServiceProviders {
   ListMonthlyDebts = 'ListMonthlyDebts',
   PaidDebt = 'PaidDebt',
   SignIn = 'SignIn',
-  UserRegisterService = 'UserRegisterService',
+  UserRegister = 'UserRegister',
 }

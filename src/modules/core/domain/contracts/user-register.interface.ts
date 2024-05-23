@@ -10,6 +10,6 @@ export type UserRegisterOutput = {
   email: string;
 };
 
-export interface IUserRegisterService {
+export interface IUserRegister {
   execute: (data: UserRegisterInput) => Promise<UserRegisterOutput>;
 }

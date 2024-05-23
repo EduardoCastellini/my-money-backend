@@ -7,6 +7,7 @@ export class EventEmitterService implements IEventEmitterService {
 
   emit(event: string, payload: any): void {
     console.log('Event emitted:', event, payload.debtId);
+
     this.eventEmitter.emit(event, payload);
   }
 }

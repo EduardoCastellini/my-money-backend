@@ -14,7 +14,7 @@ import {
   SignInDto,
 } from 'src/modules/infra/zod-schema-validation/sign-in.chema';
 import { Public } from 'src/modules/infra/decorators/public.decorator';
-import { ServiceProviders } from 'src/providers/service-providers.enum';
+import { ServiceProviders } from 'src/modules/core/service-providers.enum';
 
 @Controller('auth')
 export class AuthController {

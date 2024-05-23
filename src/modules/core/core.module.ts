@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CreateNewDebtUseCase } from 'src/modules/core/use-cases/create-new-debt.use-case';
 import { ListMonthlyDebtsUseCase } from 'src/modules/core/use-cases/list-monthly-debts.use-case';
 import { DebtRepository } from 'src/modules/infra/db/repositories/debt.repository';
-import { ServiceProviders } from 'src/providers/service-providers.enum';
+import { ServiceProviders } from 'src/modules/core/service-providers.enum';
 import { PaidDebtUseCase } from 'src/modules/core/use-cases/paid-debt.use-case';
 import { HashAdapter } from 'src/modules/infra/adapters/hash.adapter';
 import { UserRepository } from 'src/modules/infra/db/repositories/user.repository';
@@ -63,7 +63,7 @@ import { EventEmitterService } from '../infra/events/event-emitter.service';
     },
 
     {
-      provide: ServiceProviders.UserRegisterService,
+      provide: ServiceProviders.UserRegister,
       useFactory: (
         userRepository: UserRepository,
         hashAdapter: HashAdapter,
@@ -79,7 +79,7 @@ import { EventEmitterService } from '../infra/events/event-emitter.service';
     ServiceProviders.CreateNewDebt,
     ServiceProviders.ListMonthlyDebts,
     ServiceProviders.PaidDebt,
-    ServiceProviders.UserRegisterService,
+    ServiceProviders.UserRegister,
   ],
 })
 export class CoreModule {}

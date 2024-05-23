@@ -9,7 +9,7 @@ import { DebtRepository } from '../infra/db/repositories/debt.repository';
 
   providers: [
     {
-      provide: 'DebtConsumer',
+      provide: DebtConsumer,
       useFactory: (debtRepository: DebtRepository) => {
         return new DebtConsumer(debtRepository);
       },
