@@ -9,9 +9,9 @@ export class DebtConsumer {
 
   @Process('process')
   async process(job: Job<DebtEntity>) {
-    console.log(job.data.id);
+    console.log(job.data);
 
-    const result = await this.debtRepository.findOne(job.data.id);
+    const result = await this.debtRepository.findOne(job.data.uuid);
 
     console.log('result: ', result.status);
 

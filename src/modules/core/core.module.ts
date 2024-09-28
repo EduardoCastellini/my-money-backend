@@ -10,7 +10,6 @@ import { UserRegisterUseCase } from './use-cases/user-register.use-case';
 import { SignInUseCase } from './use-cases/sign-in.use-case';
 import { JwtAdapter } from 'src/modules/infra/adapters/jwt.adapter';
 import { InfraModule } from 'src/modules/infra/infra.module';
-import { DebtQueueProducer } from '../infra/producers/debt-queue.producer';
 import { IEventEmitterService } from './contracts/event-emitter-service.interface';
 import { EventEmitterService } from '../infra/events/event-emitter.service';
 
@@ -34,16 +33,11 @@ import { EventEmitterService } from '../infra/events/event-emitter.service';
       provide: ServiceProviders.CreateNewDebt,
       useFactory: (
         debtRepository: DebtRepository,
-        debtQueueProducer: DebtQueueProducer,
         eventEmitter: IEventEmitterService,
       ) => {
-        return new CreateNewDebtUseCase(
-          eventEmitter,
-          debtQueueProducer,
-          debtRepository,
-        );
+        return new CreateNewDebtUseCase(eventEmitter, debtRepository);
       },
-      inject: [DebtRepository, DebtQueueProducer, EventEmitterService],
+      inject: [DebtRepository, EventEmitterService],
     },
 
     {

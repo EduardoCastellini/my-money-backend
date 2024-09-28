@@ -6,7 +6,7 @@ export class EventEmitterService implements IEventEmitterService {
   constructor(@Inject(EventEmitter2) private eventEmitter: EventEmitter2) {}
 
   emit(event: string, payload: any): void {
-    console.log('Event emitted:', event, payload.debtId);
+    console.log('Event emitted:', event, payload.uuid);
 
     this.eventEmitter.emit(event, payload);
   }
