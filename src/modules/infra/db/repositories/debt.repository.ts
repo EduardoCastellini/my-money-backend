@@ -10,31 +10,34 @@ export class DebtRepository implements IDebtRepository {
   async save(debt: DebtEntity): Promise<DebtEntity> {
     const debtCreated = await this.prisma.debts.create({
       data: {
-        id: debt.id,
+        uuid: debt.uuid,
         description: debt.description,
         amount: debt.amount,
         status: debt.status,
         dueDate: debt.dueDate,
         tags: debt.tags.toString(),
         userId: debt.userId,
+        createdAt: debt.created_at,
       },
     });
 
     return new DebtEntity({
       id: debtCreated.id,
+      uuid: debtCreated.uuid,
       description: debtCreated.description,
       amount: debtCreated.amount,
       status:
         debtCreated.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
       dueDate: debtCreated.dueDate,
       userId: debtCreated.userId,
+      createdAt: debtCreated.createdAt,
     });
   }
 
   async findOne(debtId: string): Promise<DebtEntity> {
     const debt = await this.prisma.debts.findUnique({
       where: {
-        id: debtId,
+        uuid: debtId,
       },
     });
 
@@ -44,12 +47,14 @@ export class DebtRepository implements IDebtRepository {
 
     return new DebtEntity({
       id: debt.id,
+      uuid: debt.uuid,
       description: debt.description,
       amount: debt.amount,
       status: debt.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
       dueDate: debt.dueDate,
       userId: debt.userId,
       tags: debt.tags.split(','),
+      createdAt: debt.createdAt,
     });
   }
 
@@ -62,6 +67,7 @@ export class DebtRepository implements IDebtRepository {
         (debt) =>
           new DebtEntity({
             id: debt.id,
+            uuid: debt.uuid,
             description: debt.description,
             amount: debt.amount,
             status:
@@ -70,6 +76,7 @@ export class DebtRepository implements IDebtRepository {
             dueDate: debt.dueDate,
             userId: debt.userId,
             tags: debt.tags.split(','),
+            createdAt: debt.createdAt,
           }),
       );
   }
@@ -87,12 +94,14 @@ export class DebtRepository implements IDebtRepository {
 
     return new DebtEntity({
       id: debtUpdated.id,
+      uuid: debtUpdated.uuid,
       description: debtUpdated.description,
       amount: debtUpdated.amount,
       status:
         debtUpdated.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
       dueDate: debtUpdated.dueDate,
       userId: debtUpdated.userId,
+      createdAt: debtUpdated.createdAt,
     });
   }
 }

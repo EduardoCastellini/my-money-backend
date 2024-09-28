@@ -5,8 +5,8 @@ export type UserProps = {
   name: string;
   email: string;
   password: string;
-  created_at?: Date;
-  updated_at?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export class UserEntity {
@@ -14,16 +14,16 @@ export class UserEntity {
   private readonly _name: string;
   private readonly _email: string;
   private readonly _password: string;
-  private readonly _created_at?: Date;
-  private _updated_at?: Date;
+  private readonly _createdAt?: Date;
+  private _updatedAt?: Date;
 
   constructor(props: UserProps) {
     this._id = props.id;
     this._name = props.name;
     this._email = props.email;
     this._password = props.password;
-    this._created_at = props.created_at;
-    this._updated_at = props.updated_at;
+    this._createdAt = props.createdAt;
+    this._updatedAt = props.updatedAt;
   }
 
   get id(): string {
@@ -42,21 +42,21 @@ export class UserEntity {
     return this._password;
   }
 
-  get created_at(): Date {
-    return this._created_at;
+  get createdAt(): Date {
+    return this._createdAt;
   }
 
-  get updated_at(): Date | null {
-    return this._updated_at;
+  get updatedAt(): Date | null {
+    return this._updatedAt;
   }
 
   static create(
-    props: Omit<UserProps, 'id' | 'created_at' | 'updated_at'>,
+    props: Omit<UserProps, 'id' | 'createdAt' | 'updatedAt'>,
   ): UserEntity {
     return new UserEntity({
       ...props,
       id: randomUUID(),
-      created_at: new Date(),
+      createdAt: new Date(),
     });
   }
 
@@ -65,8 +65,8 @@ export class UserEntity {
       id: this._id,
       name: this._name,
       email: this._email,
-      created_at: this._created_at,
-      updated_at: this._updated_at,
+      createdAt: this._createdAt,
+      updatedAt: this._updatedAt,
     };
   }
 }

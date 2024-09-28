@@ -2,7 +2,8 @@ import { randomUUID } from 'crypto';
 import { DebtStatus } from '../enums/debt-status.enum';
 
 export type DebtProps = {
-  id: string;
+  uuid: string;
+  id?: number;
   description: string;
   amount: number;
   dueDate: Date;
@@ -10,12 +11,13 @@ export type DebtProps = {
   userId: string;
   paymentDate?: Date;
   tags?: string[];
-  created_at?: Date;
-  updated_at?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export class DebtEntity {
-  private readonly _id: string;
+  private readonly _id?: number;
+  private readonly _uuid: string;
   private readonly _description: string;
   private readonly _amount: number;
   private readonly _dueDate: Date;
@@ -23,11 +25,12 @@ export class DebtEntity {
   private readonly _userId: string;
   private _paymentDate?: Date;
   private _tags?: string[];
-  private readonly _created_at?: Date;
-  private _updated_at?: Date;
+  private readonly _createdAt?: Date;
+  private _updatedAt?: Date;
 
   constructor(props: DebtProps) {
     this._id = props.id;
+    this._uuid = props.uuid;
     this._description = props.description;
     this._amount = props.amount;
     this._dueDate = props.dueDate;
@@ -35,12 +38,16 @@ export class DebtEntity {
     this._userId = props.userId;
     this._paymentDate = props.paymentDate;
     this._tags = props.tags || [];
-    this._created_at = props.created_at;
-    this._updated_at = props.updated_at;
+    this._createdAt = props.createdAt;
+    this._updatedAt = props.updatedAt;
   }
 
-  get id(): string {
+  get id(): number {
     return this._id;
+  }
+
+  get uuid(): string {
+    return this._uuid;
   }
 
   get description(): string {
@@ -72,21 +79,24 @@ export class DebtEntity {
   }
 
   get created_at(): Date {
-    return this._created_at;
+    return this._createdAt;
   }
 
   get updated_at(): Date | null {
-    return this._updated_at;
+    return this._updatedAt;
   }
 
   static create(
-    props: Omit<DebtProps, 'id' | 'status' | 'created_at' | 'updated_at'>,
+    props: Omit<
+      DebtProps,
+      'id' | 'uuid' | 'status' | 'created_at' | 'updated_at'
+    >,
   ): DebtEntity {
     return new DebtEntity({
       ...props,
-      id: randomUUID(),
+      uuid: randomUUID(),
       status: DebtStatus.PENDING,
-      created_at: new Date(),
+      createdAt: new Date(),
     });
   }
 
@@ -99,7 +109,7 @@ export class DebtEntity {
 
   public toJSON(): DebtProps {
     return {
-      id: this._id,
+      uuid: this._uuid,
       description: this._description,
       amount: this._amount,
       dueDate: this._dueDate,
@@ -107,8 +117,8 @@ export class DebtEntity {
       paymentDate: this._paymentDate,
       userId: this._userId,
       tags: this._tags,
-      created_at: this._created_at,
-      updated_at: this._updated_at,
+      createdAt: this._createdAt,
+      updatedAt: this._updatedAt,
     };
   }
 }

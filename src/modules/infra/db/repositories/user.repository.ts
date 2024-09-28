@@ -13,6 +13,7 @@ export class UserRepository implements IUserRepository {
         name: userEntity.name,
         email: userEntity.email,
         password: userEntity.password,
+        createdAt: userEntity.createdAt,
       },
     });
 
@@ -21,6 +22,7 @@ export class UserRepository implements IUserRepository {
       name: user.name,
       email: user.email,
       password: user.password,
+      createdAt: user.createdAt,
     });
   }
 
