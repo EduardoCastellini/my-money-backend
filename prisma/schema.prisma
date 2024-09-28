@@ -14,16 +14,19 @@ datasource db {
 }
 
 model Users {
-  id       String    @id
-  email    String    @unique
-  name     String
-  password String
-  debts    Debts[]
-  incomes  Incomes[]
+  id        String    @id
+  email     String    @unique
+  name      String
+  password  String
+  debts     Debts[]
+  incomes   Incomes[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Debts {
-  id          String    @id
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique
   description String
   amount      Int
   dueDate     DateTime
@@ -33,10 +36,14 @@ model Debts {
 
   user   Users  @relation(fields: [userId], references: [id])
   userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Incomes {
-  id          String   @id
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique
   description String
   amount      Int
   dueDate     DateTime
@@ -45,4 +52,7 @@ model Incomes {
 
   user   Users  @relation(fields: [userId], references: [id])
   userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
