@@ -8,8 +8,8 @@ import {
 
 export class CreateNewDebtUseCase implements ICreateNewDebt {
   constructor(
-    private readonly eventEmitterService: IEventEmitterService,
     private readonly debtRepository: IDebtRepository,
+    private readonly eventEmitterService: IEventEmitterService,
   ) {}
 
   async execute(input: CreateNewDebtInput): Promise<DebtEntity> {

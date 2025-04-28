@@ -28,18 +28,16 @@ import { EventEmitterService } from '../infra/events/event-emitter.service';
       },
       inject: [UserRepository, JwtAdapter, HashAdapter],
     },
-
     {
       provide: ServiceProviders.CreateNewDebt,
       useFactory: (
         debtRepository: DebtRepository,
         eventEmitter: IEventEmitterService,
       ) => {
-        return new CreateNewDebtUseCase(eventEmitter, debtRepository);
+        return new CreateNewDebtUseCase(debtRepository, eventEmitter);
       },
       inject: [DebtRepository, EventEmitterService],
     },
-
     {
       provide: ServiceProviders.ListMonthlyDebts,
       useFactory: (debtRepository: DebtRepository) => {
@@ -47,7 +45,6 @@ import { EventEmitterService } from '../infra/events/event-emitter.service';
       },
       inject: [DebtRepository],
     },
-
     {
       provide: ServiceProviders.PaidDebt,
       useFactory: (debtRepository: DebtRepository) => {
@@ -55,7 +52,6 @@ import { EventEmitterService } from '../infra/events/event-emitter.service';
       },
       inject: [DebtRepository],
     },
-
     {
       provide: ServiceProviders.UserRegister,
       useFactory: (

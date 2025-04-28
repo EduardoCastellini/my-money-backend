@@ -28,6 +28,7 @@ export class DebtRepository implements IDebtRepository {
       amount: debtCreated.amount,
       status:
         debtCreated.status === 'PENDING' ? DebtStatus.PENDING : DebtStatus.PAID,
+      tags: debtCreated.tags.split(','),
       dueDate: debtCreated.dueDate,
       userId: debtCreated.userId,
       createdAt: debtCreated.createdAt,
